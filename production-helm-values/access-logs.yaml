@@ -3,7 +3,7 @@ gloo:
     gatewayProxy:
       gatewaySettings:
         accessLoggingService:
-          accessLog:
+          accessLog: # https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage
             - fileSink:
                 path: /dev/stdout
                 jsonFormat:
@@ -11,13 +11,14 @@ gloo:
                   protocol: '%PROTOCOL%'
                   responseCode: '%RESPONSE_CODE%'
                   clientDuration: '%DURATION%'
-                  targetDuration: '%RESPONSE_DURATION%'
+                  targetDuration: '%RESPONSE_DURATION%' # Total duration in milliseconds of the request from the start time to the first byte read from the upstream host.
                   path: '%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%'
                   upstreamName: '%UPSTREAM_CLUSTER%'
+                  upstreamHost: "%UPSTREAM_HOST%" # Upstream host URL
                   systemTime: '%START_TIME%'
                   requestId: '%REQ(X-REQUEST-ID)%'
-                  responseFlags: '%RESPONSE_FLAGS%'
-                  xForwardedFor: '%REQ(X-FORWARDED-FOR)%'
-                  xForwardedProto: '%REQ(X-FORWARDED-PROTO)%'
-                  downstreamRemoteAddress: '%DOWNSTREAM_REMOTE_ADDRESS%'
-                  wafFilterState: '%FILTER_STATE(io.solo.modsecurity.audit_log)%'
+                  responseFlags: '%RESPONSE_FLAGS%' # https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags
+                  xForwardedFor: '%REQ(X-FORWARDED-FOR)%' # depends on your LoadBalancer configuration
+                  xForwardedProto: '%REQ(X-FORWARDED-PROTO)%' # depends on your LoadBalancer configuration
+                  downstreamRemoteAddress: '%DOWNSTREAM_REMOTE_ADDRESS%' # Remote address of the downstream connection. If the address is an IP address it includes both address and port.
+                  wafFilterState: '%FILTER_STATE(io.solo.modsecurity.audit_log)%' # https://docs.solo.io/gloo-edge/latest/guides/security/waf/#audit-logging

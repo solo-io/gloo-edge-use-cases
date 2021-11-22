@@ -1,0 +1,52 @@
+gloo:
+  gatewayProxies:
+    gatewayProxy:
+      gatewaySettings:
+        accessLoggingService:
+          accessLog: # https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage
+            - fileSink:
+                path: /dev/stdout
+                jsonFormat:
+                  httpMethod: '%REQ(:METHOD)%'
+                  protocol: '%PROTOCOL%'
+                  responseCode: '%RESPONSE_CODE%'
+                  clientDuration: '%DURATION%'
+                  targetDuration: '%RESPONSE_DURATION%' # Total duration in milliseconds of the request from the start time to the first byte read from the upstream host.
+                  path: '%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%'
+                  upstreamName: '%UPSTREAM_CLUSTER%'
+                  upstreamHost: "%UPSTREAM_HOST%" # Upstream host URL
+                  systemTime: '%START_TIME%'
+                  requestId: '%REQ(X-REQUEST-ID)%'
+                  responseFlags: '%RESPONSE_FLAGS%' # https://www.envoyproxy.io/docs/envoy/latest/configuration/observability/access_log/usage#config-access-log-format-response-flags
+                  xForwardedFor: '%REQ(X-FORWARDED-FOR)%' # depends on your LoadBalancer configuration
+                  xForwardedProto: '%REQ(X-FORWARDED-PROTO)%' # depends on your LoadBalancer configuration
+                  downstreamRemoteAddress: '%DOWNSTREAM_REMOTE_ADDRESS%' # Remote address of the downstream connection. If the address is an IP address it includes both address and port.
+                  wafFilterState: '%FILTER_STATE(io.solo.modsecurity.audit_log)%' # https://docs.solo.io/gloo-edge/latest/guides/security/waf/#audit-logging
+        customHttpGateway:
+          options:
+            buffer: # enables the Buffer filter
+              maxRequestBytes: 1000000 # around 1MB      
+            sanitizeClusterHeader: true # forbid the 'cluster_header' header sent by Clients
+            httpConnectionManagerSettings:
+              pathWithEscapedSlashesAction: IMPLEMENTATION_SPECIFIC_DEFAULT # https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options/hcm/hcm.proto.sk/#pathwithescapedslashesaction
+              mergeSlashes: true # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto
+              normalizePath: true # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto
+              maxHeadersCount: 50
+        options:
+          perConnectionBufferLimitBytes: 2000000 # to be clarified
+      kind:
+        deployment:
+          replicas: 2
+      antiAffinity: true
+  settings:
+    disableKubernetesDestinations: true
+    replaceInvalidRoutes: true
+  gateway:
+    validation:
+      disableTransformationValidation: true # better performances but more risky
+      allowWarnings: false # reject if warning status or rejected status
+      alwaysAcceptResources: false # reject invalid resources
+      # failurePolicy: Fail # ValidatingWebHookConfig # wait for https://github.com/solo-io/gloo/issues/4468
+      warnRouteShortCircuiting: true
+  discovery:
+    enabled: false # disable both UDS and FDS. More options coming: https://github.com/solo-io/gloo/issues/3665

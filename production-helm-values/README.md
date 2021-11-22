@@ -20,6 +20,15 @@ yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' access-logs.yaml d
 - https://mikefarah.gitbook.io/yq/operators/multiply-merge#merging-files
 
 
+## Full example
+
+This example gathers most of the samples from this directory:
+
+```bash
+yq eval-all '. as $item ireduce ({}; . * $item )' access-logs.yaml control-plane-perf.yaml control-plane-validation-rules.yaml data-plane-replicas-antiaffinity.yaml disable-discovery.yaml hcm-tuning.yaml | tee values.yaml
+```
+
+
 ## Discussion on existing tools to merge files
 
 [Kustomize](https://kustomize.io/) doesn’t work with plain yaml files, without the `metadata:` and `kind:` attributes. 
