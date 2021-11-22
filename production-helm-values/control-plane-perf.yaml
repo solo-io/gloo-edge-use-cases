@@ -1,0 +1,7 @@
+
+gloo:
+  settings:
+    disableKubernetesDestinations: true
+  gateway:
+    validation:
+      disableTransformationValidation: true # better performances but more risky

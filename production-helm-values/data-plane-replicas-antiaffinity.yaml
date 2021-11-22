@@ -1,0 +1,8 @@
+gloo:
+  gatewayProxies:
+    gatewayProxy:
+      kind:
+        deployment:
+          replicas: 2
+
+      antiAffinity: true

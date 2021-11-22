@@ -1,0 +1,23 @@
+gloo:
+  gatewayProxies:
+    gatewayProxy:
+      gatewaySettings:
+        accessLoggingService:
+          accessLog:
+            - fileSink:
+                path: /dev/stdout
+                jsonFormat:
+                  httpMethod: '%REQ(:METHOD)%'
+                  protocol: '%PROTOCOL%'
+                  responseCode: '%RESPONSE_CODE%'
+                  clientDuration: '%DURATION%'
+                  targetDuration: '%RESPONSE_DURATION%'
+                  path: '%REQ(X-ENVOY-ORIGINAL-PATH?:PATH)%'
+                  upstreamName: '%UPSTREAM_CLUSTER%'
+                  systemTime: '%START_TIME%'
+                  requestId: '%REQ(X-REQUEST-ID)%'
+                  responseFlags: '%RESPONSE_FLAGS%'
+                  xForwardedFor: '%REQ(X-FORWARDED-FOR)%'
+                  xForwardedProto: '%REQ(X-FORWARDED-PROTO)%'
+                  downstreamRemoteAddress: '%DOWNSTREAM_REMOTE_ADDRESS%'
+                  wafFilterState: '%FILTER_STATE(io.solo.modsecurity.audit_log)%'

@@ -1,0 +1,24 @@
+# see also https://docs.solo.io/gloo-edge/latest/operations/advanced/zero-downtime-gateway-rollout/
+gloo:
+  gatewayProxies:
+    gatewayProxy:
+      podTemplate:
+        terminationGracePeriodSeconds: 7
+        gracefulShutdown:
+          enabled: true
+          sleepTimeSeconds: 5
+        probes: true
+        customReadinessProbe:
+          httpGet:
+            scheme: HTTPS
+            port: 8443
+            path: /envoy-hc
+          failureThreshold: 2
+          initialDelaySeconds: 5
+          periodSeconds: 5
+      
+      gatewaySettings:
+        customHttpsGateway: # or 'customHttpGateway' depending on where you handle TLS offloading
+          options:
+            healthCheck:
+              path: /envoy-hc

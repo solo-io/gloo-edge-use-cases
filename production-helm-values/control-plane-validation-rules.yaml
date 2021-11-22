@@ -1,0 +1,10 @@
+
+gloo:
+  settings:
+    replaceInvalidRoutes: true
+  gateway:
+    validation:
+      allowWarnings: false # reject if warning status or rejected status
+      alwaysAcceptResources: false # reject invalid resources
+      # failurePolicy: Fail # ValidatingWebHookConfig # wait for https://github.com/solo-io/gloo/issues/4468
+      warnRouteShortCircuiting: true
