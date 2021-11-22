@@ -1,0 +1,15 @@
+gloo:
+  gatewayProxies:
+    gatewayProxy:
+      gatewaySettings:
+        customHttpGateway:
+          options:
+            buffer: # enables the Buffer filter
+              maxRequestBytes: 1000000 # around 1MB      
+            sanitizeClusterHeader: true # forbid the 'cluster_header' header sent by Clients
+            httpConnectionManagerSettings:
+              pathWithEscapedSlashesAction: IMPLEMENTATION_SPECIFIC_DEFAULT # https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options/hcm/hcm.proto.sk/#pathwithescapedslashesaction
+
+        options:
+          perConnectionBufferLimitBytes: 2000000 # to be clarified
+

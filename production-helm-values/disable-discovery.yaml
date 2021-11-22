@@ -1,0 +1,3 @@
+gloo:
+  discovery:
+    enabled: false # disable both UDS and FDS. More options coming: https://github.com/solo-io/gloo/issues/3665
