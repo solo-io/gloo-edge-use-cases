@@ -1,8 +1,8 @@
 # Helm values samples for production
 
-The main documentation is here: https://docs.solo.io/gloo-edge/latest/operations/production_deployment/
+_The main documentation is here: https://docs.solo.io/gloo-edge/latest/operations/production_deployment/_
 
-Pick Helm values snippets in the different files and merge them together.
+Compose your own Helm values file from the samples in this directory.
 
 Commands shown below require `yq` version 1.4.x
 
