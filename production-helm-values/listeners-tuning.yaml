@@ -1,0 +1,14 @@
+gloo:
+  gatewayProxies:
+    gatewayProxy:
+      # https://www.envoyproxy.io/docs/envoy/latest/configuration/operations/overload_manager/overload_manager.html?highlight=global_downstream_max_connections#limiting-active-connections
+      globalDownstreamMaxConnections: 50000 # default 250000. See also `ulimit -aH`
+      customStaticLayer: |
+        # Add custom layer with runtime options for listener connection limits
+        envoy:
+          resource_limits:
+            listener:
+              myListener1: 
+                connection_limit: 10000
+              myListener2:
+                connection_limit: 10

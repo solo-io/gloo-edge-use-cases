@@ -1,0 +1,20 @@
+# see also: https://www.solo.io/blog/tutorial-secure-the-edge-with-gloo-and-get-your-a-grade/
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: ...
+  namespace: ...
+spec:
+  sslConfig:
+    ...
+  virtualHost:
+    domains:
+    - my-domain.com
+    routes:
+    ...
+    options:
+      headerManipulation:
+        responseHeadersToAdd:
+        - header:
+            key: Strict-Transport-Security
+            value: 'max-age=31536000; includeSubDomains; preload'

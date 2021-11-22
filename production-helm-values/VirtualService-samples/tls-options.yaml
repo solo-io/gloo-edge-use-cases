@@ -1,0 +1,17 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: ...
+  namespace: ...
+spec:
+  sslConfig: # see https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/ssl.proto.sk/#sslconfig
+    disableTlsSessionResumption: false
+    transportSocketConnectTimeout: 3s # timeout for the TLS handshake
+    parameters:
+      minimumProtocolVersion: TLSv1_2
+      cipherSuites: # just an example, please build you own list
+        - ECDHE-RSA-AES128-GCM-SHA256
+        - ECDHE-RSA-AES256-GCM-SHA384
+        - ECDHE-RSA-CHACHA20-POLY1305
+        # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/transport_sockets/tls/v3/common.proto
+    # alpnProtocols: "allow_empty" # will disable ALPN
