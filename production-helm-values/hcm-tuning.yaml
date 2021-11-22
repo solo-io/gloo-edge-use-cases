@@ -9,9 +9,10 @@ gloo:
             sanitizeClusterHeader: true # forbid the 'cluster_header' header sent by Clients
             httpConnectionManagerSettings:
               pathWithEscapedSlashesAction: IMPLEMENTATION_SPECIFIC_DEFAULT # https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options/hcm/hcm.proto.sk/#pathwithescapedslashesaction
-              mergeSlashes: true # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto
-              normalizePath: true # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto
-              maxHeadersCount: 50
+              # the three lines below require v1.10 stable
+              # mergeSlashes: true # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto
+              # normalizePath: true # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto
+              # maxHeadersCount: 50
         options:
           perConnectionBufferLimitBytes: 2000000 # to be clarified
 
