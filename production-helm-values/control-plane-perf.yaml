@@ -5,3 +5,5 @@ gloo:
   gateway:
     validation:
       disableTransformationValidation: true # better performances but more risky
+    proxyServiceAccount:
+      disableAutomount: true # https://docs.solo.io/gloo-edge/latest/operations/production_deployment/#security-concerns
