@@ -29,6 +29,8 @@ gloo:
             sanitizeClusterHeader: true # forbid the 'cluster_header' header sent by Clients
             httpConnectionManagerSettings:
               pathWithEscapedSlashesAction: IMPLEMENTATION_SPECIFIC_DEFAULT # https://docs.solo.io/gloo-edge/latest/reference/api/github.com/solo-io/gloo/projects/gloo/api/v1/options/hcm/hcm.proto.sk/#pathwithescapedslashesaction
+              useRemoteAddress: true # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-use-remote-address
+              skipXffAppend: false # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto#envoy-v3-api-field-extensions-filters-network-http-connection-manager-v3-httpconnectionmanager-use-remote-address
               # the three lines below require v1.10 stable
               # mergeSlashes: true # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto
               # normalizePath: true # https://www.envoyproxy.io/docs/envoy/latest/api-v3/extensions/filters/network/http_connection_manager/v3/http_connection_manager.proto
@@ -49,5 +51,7 @@ gloo:
       alwaysAcceptResources: false # reject invalid resources
       # failurePolicy: Fail # ValidatingWebHookConfig # wait for https://github.com/solo-io/gloo/issues/4468
       warnRouteShortCircuiting: true
+    proxyServiceAccount:
+      disableAutomount: true # https://docs.solo.io/gloo-edge/latest/operations/production_deployment/#security-concerns
   discovery:
     enabled: false # disable both UDS and FDS. More options coming: https://github.com/solo-io/gloo/issues/3665
