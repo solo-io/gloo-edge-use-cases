@@ -1,0 +1,28 @@
+kind: VirtualService
+metadata:
+  name: tenant-cluster-dynamic
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+      - '*'
+    routes:
+      - matchers:
+          - prefix: /
+        routeAction:
+          clusterHeader: tenant-upstream
+    options:
+      stagedTransformations:
+        regular:
+          requestTransforms:
+            - requestTransformation:
+                transformationTemplate:
+                  extractors:
+                    servicename:
+                      header: ':path'
+                      regex: '(^\/[^\/]+\/)([^\/]*)'
+                      subgroup: 2
+                  headers:
+                    tenant-upstream:
+                      text: "{{ header(\"tenant-id\") }}-{{ servicename }}-8000_gloo-system"
+              clearRouteCache: true
