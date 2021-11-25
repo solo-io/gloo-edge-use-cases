@@ -1,0 +1,37 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: olos-live-dynamic
+  namespace: default
+spec:
+  virtualHost:
+    domains:
+    - '*'
+    routes:
+      - matchers:
+          - prefix: /api/
+        options:
+          stagedTransformations:
+            regular:
+              requestTransforms:
+                - matcher: # only apply the transformation on that sub-matcher
+                    prefix: /api/ 
+                    headers:
+                      - name: tenant-id # whichever value
+                  requestTransformation:
+                    transformationTemplate:
+                      extractors:
+                        x-service-name: # pick the 2nd segment from the path
+                          header: ':path'
+                          regex: '/api/([a-zA-Z0-9]+)/.*'
+                          subgroup: 1
+                        x-tenant-id: # sanitize user input with a regex
+                          header: 'tenant-id' 
+                          regex: '[a-zA-Z0-9]+'
+                      headers:
+                        tenant-upstream: # build an "upstream cluster" name with the convention: "<upstream name>_<upstream namespace>""
+                          text: "{{ x-tenant-id }}-{{ x-service-name }}service_{{ x-tenant-id }}" # the Upstream CR lives in the tenant's namespace
+                  clearRouteCache: true
+          # prefixRewrite: / # strip the '/api/' prefix from the path before forwarding upstream
+        routeAction:
+          clusterHeader: tenant-upstream

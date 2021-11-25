@@ -5,5 +5,5 @@ This repository is a collection of examples to show best practices and examples 
 ## Installation Best Practices
 - [Helm Values Samples](production-helm-values/README.md)
 
-## VirtualService Examples
-- [VirtualService Best Practices](virtual-service/README.md)
+## Use cases
+- [Dynamic routing](dynamic-routing/README.md)
