@@ -7,3 +7,4 @@ This repository is a collection of examples to show best practices and examples 
 
 ## Use cases
 - [Dynamic routing](dynamic-routing/README.md)
+- [Downstream TLS options (cipher suites, HSTS, etc.)](downstream-tls-options/)
