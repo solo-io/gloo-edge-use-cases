@@ -1,0 +1,10 @@
+gloo:
+  gatewayProxies:
+    gatewayProxy: # do the following for each gateway proxy
+      xdsServiceAddress: xds-relay.default.svc.cluster.local
+      xdsServicePort: 9991
+global:
+  extensions:
+    extAuth:
+      envoySidecar: true
+      standaloneDeployment: false # notice you can have both true, and choose mode in settings. Easier if we set this false
