@@ -37,3 +37,16 @@ Other options include:
 * [Kustomize Components](https://kubectl.docs.kubernetes.io/guides/config_management/components/), but that won’t help either
 * [Kustomize Controller](https://fluxcd.io/docs/components/kustomize/) would not help for the same reasons
 * [Helm Controller](https://fluxcd.io/docs/components/helm/), but it looks like a big machinery in order to merge yaml chunks
+
+## Samples included here
+
+- [Access Log Configuration](access-logs.yaml)
+- [AWS NLB TLS Offloading](aws-nlb-tls-offloading.yaml)
+- [Control Plane Performance Tuning](control-plane-perf.yaml)
+- [Control Plane Validation Rules](control-plane-validation-rules.yaml)
+- [Data Plane Anti-Affinity](data-plane-replicas-antiaffinity.yaml)
+- [Disabling Discovery](disable-discovery.yaml)
+- [Envoy Health Checks](envoy-health-check-filter.yaml)
+- [HCM Tuning](hcm-tuning.yaml)
+- [Listener Tuning](listener-tuning.yaml)
+- [XDS Relay](xds-relay.yaml)
