@@ -33,3 +33,7 @@ This scripts assumes you have already created the AWS IAM account.
 ```
 ./deploy-lbc
 ```
+
+## Modifying the Gateway configuration
+
+- [NLB with TLS Offloading](nlb-with-tls-offloading.yaml)
