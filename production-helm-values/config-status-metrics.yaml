@@ -1,0 +1,14 @@
+gloo:
+  settings:
+    kubeResourceOverride:
+      spec:
+        observabilityOptions:
+          configStatusMetricLabels:
+            Upstream.v1.gloo.solo.io:
+              labelToPath:
+                name: '{.metadata.name}'
+                namespace: '{.metadata.namespace}'
+            VirtualService.v1.gateway.solo.io:
+              labelToPath:
+                name: '{.metadata.name}'
+                namespace: '{.metadata.namespace}'
