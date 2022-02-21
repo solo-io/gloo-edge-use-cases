@@ -50,3 +50,4 @@ Other options include:
 - [HCM Tuning](hcm-tuning.yaml)
 - [Listener Tuning](listener-tuning.yaml)
 - [XDS Relay](xds-relay.yaml)
+- [Disable Prometheus](no-prometheus.yaml)
