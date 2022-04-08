@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: opa-policy
+  namespace: gloo-system
+data:
+  opa-reqd-header.rego: |
+    package test
+
+    default deny = false
+
+    deny {
+        not input.check_request.attributes.request.http.headers["x-required"]
+    }

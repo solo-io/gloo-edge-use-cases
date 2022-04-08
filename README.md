@@ -11,3 +11,4 @@ This repository is a collection of examples to show best practices and examples 
 - [AWS ELB Integrations](aws-elb/README.md)
 - [Matching Path Requests with UUID](uuid-path-matching/README.md)
 - [Request Body Access Logging](request-body-access-log/README.md)
+- [Enforce Required Header with OPA](opa-required-header/README.md)
