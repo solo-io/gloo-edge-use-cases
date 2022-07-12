@@ -86,7 +86,7 @@ payload too large
 
 An HTTP 413 response indicates that we have overflowed Envoy's default buffer size for a given request. Learn more about Envoy buffering and flow control [here](https://www.envoyproxy.io/docs/envoy/latest/faq/debugging/why_is_envoy_sending_413s) and [here](https://www.envoyproxy.io/docs/envoy/latest/faq/configuration/flow_control#faq-flow-control). It is possible to increase the Envoy buffer size, but this must be considered very carefully since multiple large requests with excessive buffer sizes could result in memory consumption issues for the proxy.
 
-The good news is that for this use case we don't require buffering of the request payload at all, since we are not contemplating tranformations on the payload. We're simply delivering a large file to a service endpoint. The only transformation we require of the Envoy proxy is to add `X-My-Custom-Header`to the input, which we showed in the previous example.
+The good news is that for this use case we don't require buffering of the request payload at all, since we are not contemplating transformations on the payload. We're simply delivering a large file to a service endpoint. The only transformation we require of the Envoy proxy is to add `X-My-Custom-Header`to the input, which we showed in the previous example.
 
 So now we'll apply a one-line change to our VirtualService that sets the optional Gloo Edge [passthrough](https://docs.solo.io/gloo-edge/latest/guides/traffic_management/request_processing/transformations/#transformation-templates) flag. It is commonly used in use cases like this to instruct the proxy NOT to buffer the payload at all, but simply to pass it through unchanged to the upstream service.
 
