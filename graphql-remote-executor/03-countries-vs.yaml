@@ -1,0 +1,15 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: countries-vs
+  namespace: gloo-system
+spec:
+  virtualHost:
+    domains:
+    - '*'
+    routes:
+    - graphqlApiRef:
+        name: countries-remote
+        namespace: gloo-system
+      matchers:
+      - prefix: /graphql

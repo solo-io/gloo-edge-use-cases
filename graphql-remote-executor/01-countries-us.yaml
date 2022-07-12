@@ -1,0 +1,10 @@
+apiVersion: gloo.solo.io/v1
+kind: Upstream
+metadata:
+  name: countries-us
+  namespace: gloo-system
+spec:
+  static:
+    hosts:
+      - addr: countries.trevorblades.com
+        port: 80
