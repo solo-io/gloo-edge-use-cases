@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-proxy
+  namespace: gloo-system
+spec:
+  selector:
+    matchLabels:
+      gateway-proxy-id: gateway-proxy
+      gloo: gateway-proxy
+  template:
+    metadata:
+      annotations:
+        prometheus.io/path: /metrics
+        prometheus.io/port: "8081"
+        prometheus.io/scrape: "true"
+      labels:
+        gateway-proxy: live
+        gateway-proxy-id: gateway-proxy
+        gloo: gateway-proxy
+    spec:
+      containers:
+      - args:
+        - --disable-hot-restart
+        env:
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        image: quay.io/solo-io/gloo-envoy-wrapper:1.6.2
+        imagePullPolicy: IfNotPresent
+        name: gateway-proxy
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8443
+          name: https
+          protocol: TCP
+        resources: {}
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 10101
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /etc/envoy
+          name: envoy-config
+        - mountPath: /wasm-filters
+          name: wasm-filters
+      initContainers:
+      - name: wasm-image
+        image: localhost:8888/myorg/my-wasm-getter:1.0.0
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /wasm-filters
+          name: wasm-filters
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 10101
+        runAsUser: 10101
+      serviceAccount: gateway-proxy
+      serviceAccountName: gateway-proxy
+      terminationGracePeriodSeconds: 30
+      volumes:
+      - configMap:
+          defaultMode: 420
+          name: gateway-proxy-envoy-config
+        name: envoy-config
+      - name: wasm-filters
