@@ -1,0 +1,17 @@
+apiVersion: ratelimit.solo.io/v1alpha1
+kind: RateLimitConfig
+metadata:
+  name: my-rate-limit-policy
+  namespace: gloo-system
+spec:
+  raw:
+    descriptors:
+      - key: generic_key
+        value: "per-minute"
+        rateLimit:
+          requestsPerUnit: 1
+          unit: MINUTE  
+    rateLimits:
+    - actions:
+      - genericKey:
+          descriptorValue: "per-minute"
