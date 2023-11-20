@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: helloworld-v1
+  namespace: helloworld
   labels:
     app: helloworld
     service: helloworld
@@ -15,13 +16,14 @@ spec:
   - name: tcp-other
     port: 9001
   selector:
-    app: helloworld-v1
+    app: helloworld
     version: v1
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: helloworld-v2
+  namespace: helloworld
   labels:
     app: helloworld
     service: helloworld
@@ -35,13 +37,14 @@ spec:
   - name: tcp-other
     port: 9001
   selector:
-    app: helloworld-v2
+    app: helloworld
     version: v2
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: helloworld-v3
+  namespace: helloworld
   labels:
     app: helloworld
     service: helloworld
@@ -55,7 +58,7 @@ spec:
   - name: tcp-other
     port: 9001
   selector:
-    app: helloworld-v3
+    app: helloworld
     version: v3
 ---
 apiVersion: apps/v1
